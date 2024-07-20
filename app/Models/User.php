@@ -1,16 +1,15 @@
 <?php
-
 namespace App\Models;
-
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -19,9 +18,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'rule_id',
         'password',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -31,7 +30,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
     /**
      * Get the attributes that should be cast.
      *
@@ -43,5 +41,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function rule():BelongsTo{
+        return $this->belongsTo(Rule::class);
+    }
+    public function articles():HasMany{
+        return $this->hasMany(Article::class);
+    }
+    public function comments():HasMany{
+        return $this->hasMany(Comment::class);
+    }
+    public function likes():HasMany{
+        return $this->hasMany(Like::class);
     }
 }

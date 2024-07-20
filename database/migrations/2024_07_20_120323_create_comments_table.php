@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Foreign key field
+            $table->foreignId('article_id')->constrained()->onDelete('cascade'); // Foreign key field
             $table->text('content');
             $table->timestamps();
         });
